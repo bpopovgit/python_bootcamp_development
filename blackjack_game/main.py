@@ -24,8 +24,9 @@ def calculate_player_score_after_player_choice(user_cards_, user_score_):
 
 
 def add_to_computer_cards(computer_cards_list, computer_score_):
-    while computer_score_ < 16:
+    while computer_score_ <= 16:
         computer_cards_list.append(random.randint(1, 11))
+        computer_score_ = sum(computer_cards_list)
     return computer_cards_list
 
 
@@ -55,6 +56,10 @@ def score_checker(user_score_, computer_score_):
         return "Computer went over! You win."
     if 21 > user_score_ == computer_score_ < 21:
         return f"Draw!"
+    if computer_score_ > user_score_:
+        return "Computer wins!"
+    if user_score_ > computer_score_:
+        return "You win!"
 
 
 def final_stats_output():
@@ -101,11 +106,12 @@ while player_choice == 'y' and not is_game_over:
     print(f"Computer's first card: {computer_cards[0]}")
 
     if user_score == blackjack_score or user_score > 21:
-        print(score_checker(user_score, computer_score))
         print(final_stats_output())
+        print(score_checker(user_score, computer_score))
         is_game_over = True
 
-    player_choice = input("Type 'y' to get another card, type 'n' to pass: ") if not is_game_over else exit()
+    if not is_game_over:
+        player_choice = input("Type 'y' to get another card, type 'n' to pass: ")
 
 if player_choice == 'n' and not is_game_over:
     updated_computer_cards_list = add_to_computer_cards(computer_cards, computer_score)
@@ -113,3 +119,5 @@ if player_choice == 'n' and not is_game_over:
     print(final_stats_output())
     print(score_checker(user_score, computer_score))
     is_game_over = True
+
+
